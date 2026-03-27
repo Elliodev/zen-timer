@@ -1,31 +1,43 @@
-<main class="h-screen w-full flex flex-col items-center justify-center bg-slate-950 text-slate-200 font-sans selection:bg-teal-500/30">
+<main
+  class="h-screen w-full flex flex-col items-center justify-center transition-colors duration-1000"
+  [class.bg-slate-950]="!isBreak()"
+  [class.bg-teal-950]="isBreak()"
+>
 
-  <header class="absolute top-10 text-center">
-    <h1 class="text-sm uppercase tracking-[0.4em] opacity-30 font-light">
-      {{ title() }}
-    </h1>
-  </header>
+  <div class="mb-8 px-4 py-1 rounded-full border border-white/10 text-xs uppercase tracking-[0.3em] text-white/40">
+    @if (isBreak()) { Pause Zen } @else { Travail Focus }
+  </div>
 
-  <div class="text-[12rem] font-mono font-extralight tracking-tighter leading-none mb-20 select-none">
+  <div class="text-[10rem] font-mono font-extralight text-white leading-none mb-4 select-none">
     {{ displayTime() }}
   </div>
 
-  <div class="flex gap-6 items-center">
+  <div class="w-80 h-1.5 bg-white/10 rounded-full mb-16 overflow-hidden">
+    <div
+      class="h-full bg-white transition-all duration-1000 ease-linear"
+      [style.width.%]="progress()"
+    ></div>
+  </div>
+
+  <div class="flex gap-4">
     <button
       (click)="startTimer()"
-      [class]="'px-12 py-4 rounded-full border transition-all duration-500 uppercase tracking-widest text-xs cursor-pointer ' +
-               (timerIsStart ? 'border-amber-500/50 text-amber-500 hover:bg-amber-500/10' : 'border-teal-500/50 text-teal-500 hover:bg-teal-500/10')"
+      class="px-10 py-3 rounded-xl bg-white text-slate-950 font-bold uppercase tracking-widest text-xs hover:scale-105 transition-transform cursor-pointer"
     >
-      @if (timerIsStart) {
-        Pause
-      } @else {
-        Focus
-      }
+      {{ timerIsStart ? 'Pause' : 'Démarrer' }}
     </button>
 
     <button
-    (click)="resetTimer()"
-      class="p-4 opacity-20 hover:opacity-100 transition-opacity cursor-pointer"
+      (click)="switchMode()"
+      class="p-3 rounded-xl border border-white/20 text-white hover:bg-white/5 transition-colors cursor-pointer"
+      title="Changer de mode"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 4 4 4-4"/><path d="M7 20V4"/><path d="m21 8-4-4-4 4"/><path d="M17 4v16"/></svg>
+    </button>
+
+    <button
+      (click)="resetTimer()"
+      class="p-3 rounded-xl border border-white/20 text-white hover:bg-white/5 transition-colors cursor-pointer"
       title="Réinitialiser"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
